@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Policy Enforcement — Exentriq</title>
+<title>Exentriq Wealth — Exentriq</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
@@ -341,281 +341,17 @@ footer {
 }
 .ft-copy a { color:rgba(255,255,255,0.25); text-decoration:none; }
 
-
-/* ── PROCESS FLOW INFOGRAPHIC ── */
-.flow-section {
-  padding:100px 48px;
-  background:linear-gradient(165deg, var(--green) 0%, #1a4a34 50%, #0f2e1f 100%);
-  position:relative;
-  overflow:hidden;
-}
-.flow-section::before {
-  content:'';
-  position:absolute; inset:0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(110,231,183,0.07) 0%, transparent 70%),
-    radial-gradient(circle at 20% 80%, rgba(110,231,183,0.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(110,231,183,0.04) 0%, transparent 50%);
-  pointer-events:none;
-}
-.flow-section .eyebrow {
-  font-size:11px; font-weight:600; letter-spacing:0.14em;
-  text-transform:uppercase; color:var(--mint);
-  margin-bottom:16px; text-align:center;
-  position:relative;
-}
-.flow-section .sec-title {
-  font-size:clamp(28px,3vw,42px); font-weight:700;
-  letter-spacing:-0.025em; line-height:1.1;
-  color:var(--white); margin-bottom:20px; text-align:center;
-  position:relative;
-}
-.flow-section .sec-title em { font-style:italic; font-weight:300; color:rgba(110,231,183,0.6); }
-.flow-subtitle {
-  font-size:15px; font-weight:300; line-height:1.7;
-  color:rgba(255,255,255,0.4); text-align:center;
-  max-width:560px; margin:0 auto 72px;
-  position:relative;
-}
-
-/* ── INFOGRAPHIC TRACK ── */
-.flow-infographic {
-  position:relative;
-  max-width:1100px; margin:0 auto;
-}
-
-/* Central connecting spine */
-.flow-spine {
-  position:absolute;
-  top:60px; left:0; right:0;
-  height:3px;
-  z-index:1;
-}
-.flow-spine-bg {
-  position:absolute; inset:0;
-  background:rgba(110,231,183,0.12);
-  border-radius:2px;
-}
-.flow-spine-fill {
-  position:absolute; top:0; left:0; bottom:0;
-  width:0;
-  background:linear-gradient(90deg, var(--mint), rgba(110,231,183,0.4));
-  border-radius:2px;
-  animation:spineFill 2s ease-out 0.5s forwards;
-  box-shadow:0 0 12px rgba(110,231,183,0.3);
-}
-@keyframes spineFill { to { width:100%; } }
-
-/* Pulse dot that travels the spine */
-.flow-spine-pulse {
-  position:absolute; top:-4px; left:0;
-  width:11px; height:11px; border-radius:50%;
-  background:var(--mint);
-  box-shadow:0 0 16px rgba(110,231,183,0.6), 0 0 40px rgba(110,231,183,0.2);
-  animation:pulseDot 3s ease-in-out 0.5s infinite;
-  opacity:0;
-}
-@keyframes pulseDot {
-  0%   { left:0; opacity:0; }
-  5%   { opacity:1; }
-  90%  { opacity:1; }
-  100% { left:calc(100% - 11px); opacity:0; }
-}
-
-/* Steps container */
-.flow-steps {
-  display:grid;
-  grid-template-columns:repeat(var(--steps), 1fr);
-  gap:16px;
-  position:relative;
-  z-index:2;
-}
-
-/* Individual step */
-.flow-step {
-  display:flex; flex-direction:column; align-items:center;
-  opacity:0; animation:stepReveal .6s ease-out forwards;
-}
-.flow-step:nth-child(1) { animation-delay:0.2s; }
-.flow-step:nth-child(2) { animation-delay:0.45s; }
-.flow-step:nth-child(3) { animation-delay:0.7s; }
-.flow-step:nth-child(4) { animation-delay:0.95s; }
-.flow-step:nth-child(5) { animation-delay:1.2s; }
-@keyframes stepReveal {
-  from { opacity:0; transform:translateY(20px) scale(0.95); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
-}
-
-/* Node circle on the spine */
-.flow-node {
-  width:48px; height:48px; border-radius:50%;
-  background:var(--green);
-  border:2.5px solid rgba(110,231,183,0.35);
-  display:flex; align-items:center; justify-content:center;
-  position:relative;
-  margin-bottom:24px;
-  transition:all .4s cubic-bezier(.23,1,.32,1);
-  cursor:default;
-}
-.flow-node::before {
-  content:'';
-  position:absolute; inset:-7px;
-  border-radius:50%;
-  border:1.5px solid rgba(110,231,183,0.08);
-  transition:all .4s;
-}
-.flow-node::after {
-  content:'';
-  position:absolute; inset:-14px;
-  border-radius:50%;
-  border:1px solid rgba(110,231,183,0.04);
-}
-.flow-node-num {
-  font-size:16px; font-weight:700; color:var(--mint);
-  letter-spacing:-0.02em;
-  transition:all .3s;
-}
-.flow-step:hover .flow-node {
-  background:var(--mint);
-  border-color:var(--mint);
-  box-shadow:0 0 32px rgba(110,231,183,0.4), 0 0 64px rgba(110,231,183,0.15);
-  transform:scale(1.12);
-}
-.flow-step:hover .flow-node::before {
-  border-color:rgba(110,231,183,0.2);
-  inset:-10px;
-}
-.flow-step:hover .flow-node-num {
-  color:var(--green);
-}
-
-/* Content panel */
-.flow-panel {
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:18px;
-  padding:28px 22px 24px;
-  width:100%;
-  position:relative;
-  transition:all .4s cubic-bezier(.23,1,.32,1);
-  overflow:hidden;
-}
-.flow-panel::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0;
-  height:3px;
-  background:linear-gradient(90deg, transparent, var(--mint), transparent);
-  opacity:0;
-  transition:opacity .4s;
-}
-.flow-step:hover .flow-panel {
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(110,231,183,0.25);
-  transform:translateY(-6px);
-  box-shadow:0 16px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(110,231,183,0.1);
-}
-.flow-step:hover .flow-panel::before {
-  opacity:1;
-}
-
-/* Panel icon */
-.flow-panel-icon {
-  width:52px; height:52px; border-radius:14px;
-  background:linear-gradient(135deg, rgba(110,231,183,0.12), rgba(110,231,183,0.04));
-  border:1px solid rgba(110,231,183,0.12);
-  display:flex; align-items:center; justify-content:center;
-  margin:0 auto 16px;
-  color:var(--mint);
-  transition:all .4s;
-}
-.flow-step:hover .flow-panel-icon {
-  background:linear-gradient(135deg, rgba(110,231,183,0.22), rgba(110,231,183,0.08));
-  border-color:rgba(110,231,183,0.3);
-  transform:scale(1.05);
-}
-
-/* Panel text */
-.flow-panel-title {
-  font-size:14px; font-weight:700; color:var(--white);
-  margin-bottom:10px; letter-spacing:-0.01em;
-  line-height:1.3; text-align:center;
-}
-.flow-panel-desc {
-  font-size:12.5px; font-weight:300; line-height:1.7;
-  color:rgba(255,255,255,0.45); text-align:center;
-}
-.flow-step:hover .flow-panel-desc {
-  color:rgba(255,255,255,0.6);
-}
-
-/* Arrow connectors between nodes */
-.flow-arrow {
-  position:absolute;
-  top:49px;
-  color:var(--mint);
-  opacity:0;
-  animation:arrowFade .4s ease-out forwards;
-  z-index:3;
-  filter:drop-shadow(0 0 4px rgba(110,231,183,0.3));
-}
-.flow-arrow:nth-child(1) { animation-delay:0.6s; }
-.flow-arrow:nth-child(2) { animation-delay:0.85s; }
-.flow-arrow:nth-child(3) { animation-delay:1.1s; }
-.flow-arrow:nth-child(4) { animation-delay:1.35s; }
-@keyframes arrowFade {
-  from { opacity:0; transform:translateX(-4px); }
-  to   { opacity:0.5; transform:translateX(0); }
-}
-
 /* ── RESPONSIVE ── */
-@media(max-width:1024px) {
-  .flow-steps { gap:12px; }
-  .flow-panel { padding:22px 16px 20px; }
-}
-@media(max-width:768px) {
-  .flow-section { padding:64px 24px; }
-  .flow-spine { display:none; }
-  .flow-arrow { display:none; }
-  .flow-steps {
-    max-width:400px; margin:0 auto;
-    gap:16px;
-  }
-  .flow-step {
-    flex-direction:row; gap:16px; text-align:left;
-  }
-  .flow-node { flex-shrink:0; margin-bottom:0; width:42px; height:42px; }
-  .flow-panel { text-align:left; }
-  .flow-panel-icon { margin:0 0 12px; width:44px; height:44px; }
-  .flow-panel-title { text-align:left; }
-  .flow-panel-desc { text-align:left; }
-}
-
-/* ── RESPONSIVE ── */
-
-@media(max-width:1024px) {
-}
 @media(max-width:768px) {
   nav { padding:0 24px; }
   .nav-links { display:none; }
   .sol-hero { padding:120px 24px 72px; }
   .results-section, .kpis-section, .others-section, .cta-section { padding:64px 24px; }
   .results-grid { grid-template-columns:1fr; }
-  .others-grid { grid-template-columns:1fr 1fr; }
+  .kpis-grid { gap:40px; }
+  .others-grid { grid-template-columns:1fr; }
   .ft-grid { grid-template-columns:1fr 1fr; gap:32px; }
-  .flow-section { padding:64px 24px; }
-  nav { padding:0 24px; }
-  .nav-links { display:none; }
-  .sol-hero { padding:120px 24px 72px; }
-  .results-section, .kpis-section, .others-section, .cta-section { padding:64px 24px; }
-  .results-grid { grid-template-columns:1fr; }
-  .kpis-grid { flex-direction:column; align-items:center; gap:40px; }
-  .others-grid { grid-template-columns:1fr 1fr; }
-  .ft-grid { grid-template-columns:1fr 1fr; gap:32px; }
-  .flow-section { padding:64px 24px; }
-  }
-  }
 }
-
 </style>
 </head>
 <body>
@@ -631,11 +367,11 @@ footer {
           <li><a href="human-resources.html">Human Resources E2E Platform</a></li>
           <li><a href="orders-logistics.html">Orders &amp; Logistics</a></li>
           <li><a href="procure-to-pay.html">Procure to Pay</a></li>
-          <li><a href="policy-enforcement.html" class="active">Policy Enforcement</a></li>
+          <li><a href="policy-enforcement.html">Policy Enforcement</a></li>
           <li><a href="supply-management.html">Supply Management</a></li>
           <li><a href="automated-replenishment.html">Automated Replenishment</a></li>
           <li><a href="corporate-sustainability.html">Corporate Sustainability</a></li>
-          <li><a href="wealth-management.html">Exentriq Wealth</a></li>
+          <li><a href="wealth-management.html" class="active">Exentriq Wealth</a></li>
       </ul>
     </li>
     <li><a href="index.html#about">About</a></li>
@@ -651,99 +387,32 @@ footer {
     <div class="sol-breadcrumb">
       <a href="index.html">Exentriq</a><span>›</span>
       <a href="#">Solutions</a><span>›</span>
-      Policy Enforcement
+      Exentriq Wealth
     </div>
     <div class="sol-hero-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
     </div>
-    <h1>Policy Enforcement</h1>
-    <div class="sol-hero-sub">A flexible, continuously updatable system that dynamically adapts to evolving regulations — reducing non-compliance risk through AI-driven case analysis, violation management, and rule-based automation.</div>
+    <h1>Exentriq Wealth</h1>
+    <div class="sol-hero-sub">A comprehensive AI-powered platform for wealth managers, family offices, and compliance teams — automating data management, risk assessment, and regulatory reporting with Swiss precision.</div>
   </div>
 </section>
 
-
-<!-- PROCESS FLOW INFOGRAPHIC -->
-<section class="flow-section">
-  <div class="eyebrow">How It Works</div>
-  <div class="sec-title">Process <em>Flow</em></div>
-  <div class="flow-subtitle">Dynamic compliance — from rule definition to corrective action.</div>
-  <div class="flow-infographic">
-    <div class="flow-spine">
-      <div class="flow-spine-bg"></div>
-      <div class="flow-spine-fill"></div>
-      <div class="flow-spine-pulse"></div>
-    </div>
-  <svg class="flow-arrow" style="left:calc(25.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <svg class="flow-arrow" style="left:calc(50.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <svg class="flow-arrow" style="left:calc(75.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <div class="flow-steps" style="--steps:4">
-    <div class="flow-step">
-      <div class="flow-node"><span class="flow-node-num">1</span></div>
-      <div class="flow-panel">
-        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
-        <div class="flow-panel-title">Policy Definition</div>
-        <div class="flow-panel-desc">Policies are structured and encoded into the system, linked to regulatory sources.</div>
-      </div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-node"><span class="flow-node-num">2</span></div>
-      <div class="flow-panel">
-        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-        <div class="flow-panel-title">Automated Monitoring</div>
-        <div class="flow-panel-desc">Continuous, rule-based surveillance detects potential violations in real time.</div>
-      </div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-node"><span class="flow-node-num">3</span></div>
-      <div class="flow-panel">
-        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg></div>
-        <div class="flow-panel-title">Violation Detection</div>
-        <div class="flow-panel-desc">AI analyzes cases, classifies severity, and flags non-compliance with full context.</div>
-      </div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-node"><span class="flow-node-num">4</span></div>
-      <div class="flow-panel">
-        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1 5.1a2.121 2.121 0 01-3-3l5.1-5.1m2.92 2.92l7.18-7.18a2.121 2.121 0 00-3-3L8.42 12.25m2.92 2.92L8.42 12.25"/></svg></div>
-        <div class="flow-panel-title">Corrective Actions</div>
-        <div class="flow-panel-desc">Intelligent modules recommend and track remediation steps through to resolution.</div>
-      </div>
-    </div>
-    </div>
-  </div>
-</section>
 <!-- RESULTS -->
 <section class="results-section">
-  <div class="eyebrow">Solution Overview</div>
-  <div class="sec-title">Key <em>results</em> & capabilities</div>
-  <div class='results-grid'>
-        <div class="result-card" style="animation-delay:0.15s">
-          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <div class="result-text"><strong>Automated verification and enforcement of policies</strong> through structured workflows powered by Intelligent Process Automation, significantly reducing the risk of non-compliance.</div>
+  <div class="eyebrow">Status</div>
+  <div class="sec-title">Exentriq <em>Wealth</em></div>
+  
+        <div class="placeholder-block">
+          <div class="placeholder-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="placeholder-title">Coming Soon</div>
+          <div class="placeholder-sub">Detailed solution content for Exentriq Wealth is being prepared.<br>Contact us for early access and a personalized demo.</div>
+          <a href="index.html#contact" class="btn-solid" style="margin-top:32px;">Request Early Access</a>
         </div>
-        <div class="result-card" style="animation-delay:0.25s">
-          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div>
-          <div class="result-text"><strong>Structured management of violations and exemption requests</strong> via intelligent AI- and machine-learning-based modules, capable of analyzing cases and recommending appropriate corrective actions.</div>
-        </div>
-        <div class="result-card" style="animation-delay:0.35s">
-          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-          <div class="result-text"><strong>A flexible, continuously updatable system,</strong> able to dynamically adapt to evolving local and international regulations through integration with regulatory sources and rule-based automation.</div>
-        </div></div>
 </section>
 
-<section class='kpis-section'><div class='eyebrow'>Measured Impact</div><div class='kpis-grid'>
-          <div class="kpi-item" style="animation-delay:0.30s">
-            <div class="kpi-ring"><span class="kpi-val">5×</span></div>
-            <div class="kpi-label">Faster policy enforcement</div>
-          </div>
-          <div class="kpi-item" style="animation-delay:0.45s">
-            <div class="kpi-ring"><span class="kpi-val">100%</span></div>
-            <div class="kpi-label">Control of policy violation</div>
-          </div>
-          <div class="kpi-item" style="animation-delay:0.60s">
-            <div class="kpi-ring"><span class="kpi-val">40%</span></div>
-            <div class="kpi-label">Cost reduction in internal audit</div>
-          </div></div></section>
+
 
 <!-- OTHER SOLUTIONS -->
 <section class="others-section">
@@ -775,7 +444,7 @@ footer {
 <!-- CTA -->
 <section class="cta-section">
   <div class="sec-title">Ready to <em>transform?</em></div>
-  <div class="cta-sub">Let’s discuss how Policy Enforcement can drive measurable results for your organization.</div>
+  <div class="cta-sub">Let’s discuss how Exentriq Wealth can drive measurable results for your organization.</div>
   <a href="index.html#contact" class="btn-solid">Schedule a Consultation</a>
   <a href="index.html" class="btn-ghost">Back to Home</a>
 </section>
@@ -914,7 +583,7 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.result-card, .kpi-item, .other-card, .flow-step').forEach(el => {
+document.querySelectorAll('.result-card, .kpi-item, .other-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
