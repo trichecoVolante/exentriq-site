@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procure to Pay & Contract Management — Exentriq</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:   #ffffff;
+  --off:     #f5f5f7;
+  --off2:    #e8e8ec;
+  --g100:    #f0f0f2;
+  --g200:    #d8d8dc;
+  --g400:    #8e8e93;
+  --g600:    #4a4a4f;
+  --g800:    #1c1c1e;
+  --green:   #143d2c;
+  --green2:  #1a4a34;
+  --green3:  #265e44;
+  --greenlt: #357a58;
+  --mint:    #6ee7b7;
+  --mintlt:  #d1fae5;
+  --ink:     #1c1c1e;
+  --font: 'Montserrat', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:var(--font); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:60px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px;
+  background:rgba(255,255,255,0.88);
+  border-bottom:1px solid rgba(0,0,0,0.07);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  transition:background .4s, border-color .4s;
+}
+.logo {
+  font-size:17px; font-weight:700; letter-spacing:0.01em;
+  color:var(--ink); text-decoration:none;
+}
+.nav-links { display:flex; gap:36px; list-style:none; align-items:center; }
+.nav-links a {
+  font-size:13px; font-weight:500; letter-spacing:0.01em;
+  color:var(--g600); text-decoration:none; transition:color .25s;
+}
+.nav-links a:hover { color:var(--ink); }
+.nav-btn {
+  font-size:12px; font-weight:600; letter-spacing:0.01em;
+  color:var(--green); border:1.5px solid rgba(0,0,0,0.15);
+  background:transparent;
+  border-radius:980px;
+  padding:7px 20px; cursor:pointer;
+  font-family:var(--font);
+  text-decoration:none;
+  transition:all .25s;
+}
+nav.scrolled .nav-btn { color:var(--green); border-color:var(--green); }
+.nav-btn:hover { background:var(--green); color:var(--white); border-color:var(--green); }
+
+/* dropdown */
+.nav-dropdown { position:relative; }
+.nav-dropdown > a::after {
+  content:''; display:inline-block; width:0; height:0;
+  border-left:4px solid transparent; border-right:4px solid transparent;
+  border-top:4px solid currentColor;
+  margin-left:6px; vertical-align:middle; opacity:0.5;
+  transition:transform .25s;
+}
+.nav-dropdown:hover > a::after { transform:rotate(180deg); }
+.nav-dropdown-menu {
+  position:absolute; top:100%; left:-16px;
+  min-width:260px;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:12px;
+  padding:8px 0;
+  opacity:0; visibility:hidden;
+  transform:translateY(8px);
+  transition:all .25s;
+  box-shadow:0 12px 40px rgba(0,0,0,0.12);
+  list-style:none;
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity:1; visibility:visible; transform:translateY(0);
+}
+.nav-dropdown-menu li a {
+  display:block; padding:10px 20px;
+  font-size:13px; font-weight:500;
+  color:var(--g600) !important;
+  transition:background .15s, color .15s;
+}
+.nav-dropdown-menu li a:hover {
+  background:var(--g100); color:var(--green) !important;
+}
+.nav-dropdown-menu li a.active {
+  color:var(--green) !important; font-weight:600;
+}
+
+/* ── HERO ── */
+.sol-hero {
+  position:relative; width:100%;
+  padding:160px 48px 100px;
+  background:var(--green);
+  overflow:hidden;
+}
+.sol-hero canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+.sol-hero-inner {
+  position:relative; z-index:10;
+  max-width:800px;
+}
+.sol-breadcrumb {
+  font-size:11px; font-weight:500; letter-spacing:0.06em;
+  color:rgba(255,255,255,0.35);
+  margin-bottom:28px;
+}
+.sol-breadcrumb a {
+  color:rgba(255,255,255,0.35); text-decoration:none;
+  transition:color .2s;
+}
+.sol-breadcrumb a:hover { color:rgba(255,255,255,0.7); }
+.sol-breadcrumb span { margin:0 8px; }
+.sol-hero-icon {
+  width:56px; height:56px; border-radius:16px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:28px;
+  color:rgba(255,255,255,0.6);
+  opacity:0; animation:rise .7s .1s forwards;
+}
+.sol-hero h1 {
+  font-size:clamp(36px,4.5vw,64px);
+  font-weight:700; line-height:1.08; letter-spacing:-0.025em;
+  color:var(--white); margin-bottom:20px;
+  opacity:0; animation:rise .8s .2s forwards;
+}
+.sol-hero-sub {
+  font-size:17px; font-weight:300; line-height:1.75;
+  color:rgba(255,255,255,0.5); max-width:600px;
+  opacity:0; animation:rise .8s .35s forwards;
+}
+.sol-hero-sub strong { color:rgba(255,255,255,0.85); font-weight:500; }
+@keyframes rise {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── RESULTS ── */
+.results-section {
+  padding:100px 48px;
+  background:var(--white);
+  border-bottom:1px solid var(--g200);
+}
+.results-section .eyebrow, .kpis-section .eyebrow, .others-section .eyebrow {
+  font-size:11px; font-weight:600; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--greenlt);
+  margin-bottom:16px; text-align:center;
+}
+.results-section .sec-title, .others-section .sec-title {
+  font-size:clamp(28px,3vw,42px); font-weight:700;
+  letter-spacing:-0.025em; line-height:1.1;
+  color:var(--ink); margin-bottom:48px; text-align:center;
+}
+.sec-title em { font-style:italic; font-weight:300; color:var(--g400); }
+.results-grid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:20px; max-width:1000px; margin:0 auto;
+}
+.result-card {
+  background:var(--off);
+  border:1px solid var(--g200);
+  border-radius:14px;
+  padding:28px 24px;
+  display:flex; gap:16px; align-items:flex-start;
+  transition:all .3s;
+  opacity:0; animation:rise .6s forwards;
+}
+.result-card:hover { border-color:var(--greenlt); box-shadow:0 4px 16px rgba(20,61,44,0.06); }
+.result-icon {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--mintlt);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  color:var(--greenlt);
+}
+.result-text {
+  font-size:14px; font-weight:300; line-height:1.7; color:var(--g600);
+}
+.result-text strong { font-weight:600; color:var(--ink); }
+
+/* ── KPIs ── */
+.kpis-section {
+  padding:80px 48px;
+  background:var(--off);
+}
+.kpis-grid {
+  display:flex; justify-content:center; gap:80px;
+  max-width:900px; margin:0 auto;
+}
+.kpi-item { text-align:center; opacity:0; animation:rise .6s forwards; }
+.kpi-ring {
+  width:120px; height:120px; border-radius:50%;
+  border:3px solid var(--mintlt);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 16px;
+  background:var(--white);
+}
+.kpi-val {
+  font-size:28px; font-weight:700; color:var(--green);
+  letter-spacing:-0.02em;
+}
+.kpi-label {
+  font-size:13px; font-weight:400; color:var(--g600);
+  max-width:160px; margin:0 auto; line-height:1.5;
+}
+
+/* ── OTHER SOLUTIONS ── */
+.others-section {
+  padding:80px 48px;
+  background:var(--white);
+  border-top:1px solid var(--g200);
+}
+.others-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:16px; max-width:1000px; margin:0 auto;
+}
+.other-card {
+  background:var(--off);
+  border:1px solid var(--g200);
+  border-radius:14px;
+  padding:24px 20px;
+  text-decoration:none; color:inherit;
+  display:flex; flex-direction:column; gap:12px;
+  transition:all .3s;
+}
+.other-card:hover { border-color:var(--greenlt); transform:translateY(-2px); box-shadow:0 4px 16px rgba(20,61,44,0.06); }
+.other-icon {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--mintlt);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--greenlt);
+}
+.other-title { font-size:14px; font-weight:600; color:var(--ink); }
+.other-arrow { font-size:18px; color:var(--greenlt); margin-top:auto; }
+
+/* ── CTA ── */
+.cta-section {
+  padding:100px 48px;
+  background:var(--green);
+  text-align:center;
+}
+.cta-section .sec-title { color:var(--white); margin-bottom:16px; }
+.cta-section .sec-title em { color:var(--mint); }
+.cta-sub {
+  font-size:16px; font-weight:300; line-height:1.7;
+  color:rgba(255,255,255,0.45); max-width:520px;
+  margin:0 auto 36px;
+}
+.btn-solid {
+  display:inline-block;
+  font-size:15px; font-weight:600;
+  background:var(--white); color:var(--green);
+  border:none; border-radius:980px;
+  padding:15px 34px; cursor:pointer;
+  font-family:var(--font); text-decoration:none;
+  transition:all .25s;
+}
+.btn-solid:hover { background:var(--off); transform:scale(1.02); }
+.btn-ghost {
+  display:inline-block;
+  font-size:14px; font-weight:500;
+  color:rgba(255,255,255,0.5);
+  border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:980px;
+  padding:13px 28px; cursor:pointer;
+  font-family:var(--font); text-decoration:none;
+  transition:all .25s;
+  margin-left:12px;
+}
+.btn-ghost:hover { color:var(--white); border-color:rgba(255,255,255,0.4); }
+
+/* ── PLACEHOLDER ── */
+.placeholder-block { text-align:center; padding:48px 0; }
+.placeholder-icon { color:var(--g400); margin-bottom:24px; }
+.placeholder-title {
+  font-size:clamp(28px,3vw,42px); font-weight:700;
+  letter-spacing:-0.02em; color:var(--ink);
+  margin-bottom:16px;
+}
+.placeholder-sub {
+  font-size:15px; font-weight:300; line-height:1.75;
+  color:var(--g600); max-width:480px; margin:0 auto;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--green); padding:64px 48px 40px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.ft-grid {
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px; margin-bottom:56px;
+}
+.ft-brand {
+  font-size:17px; font-weight:700; color:var(--white);
+  margin-bottom:14px;
+}
+.ft-brand-sub {
+  font-size:13px; font-weight:300; line-height:1.7;
+  color:rgba(255,255,255,0.35); max-width:280px;
+}
+.ft-col-title {
+  font-size:10px; font-weight:700; letter-spacing:0.18em;
+  text-transform:uppercase; color:rgba(255,255,255,0.3);
+  margin-bottom:18px;
+}
+.ft-col a {
+  display:block; font-size:13px; font-weight:400;
+  color:rgba(255,255,255,0.5); text-decoration:none;
+  margin-bottom:10px; transition:color .2s;
+}
+.ft-col a:hover { color:var(--white); }
+.ft-bottom {
+  display:flex; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding-top:24px;
+}
+.ft-copy {
+  font-size:11px; font-weight:400;
+  color:rgba(255,255,255,0.25);
+}
+.ft-copy a { color:rgba(255,255,255,0.25); text-decoration:none; }
+
+
+/* ── PROCESS FLOW INFOGRAPHIC ── */
+.flow-section {
+  padding:100px 48px;
+  background:linear-gradient(165deg, var(--green) 0%, #1a4a34 50%, #0f2e1f 100%);
+  position:relative;
+  overflow:hidden;
+}
+.flow-section::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(110,231,183,0.07) 0%, transparent 70%),
+    radial-gradient(circle at 20% 80%, rgba(110,231,183,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(110,231,183,0.04) 0%, transparent 50%);
+  pointer-events:none;
+}
+.flow-section .eyebrow {
+  font-size:11px; font-weight:600; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--mint);
+  margin-bottom:16px; text-align:center;
+  position:relative;
+}
+.flow-section .sec-title {
+  font-size:clamp(28px,3vw,42px); font-weight:700;
+  letter-spacing:-0.025em; line-height:1.1;
+  color:var(--white); margin-bottom:20px; text-align:center;
+  position:relative;
+}
+.flow-section .sec-title em { font-style:italic; font-weight:300; color:rgba(110,231,183,0.6); }
+.flow-subtitle {
+  font-size:15px; font-weight:300; line-height:1.7;
+  color:rgba(255,255,255,0.4); text-align:center;
+  max-width:560px; margin:0 auto 72px;
+  position:relative;
+}
+
+/* ── INFOGRAPHIC TRACK ── */
+.flow-infographic {
+  position:relative;
+  max-width:1100px; margin:0 auto;
+}
+
+/* Central connecting spine */
+.flow-spine {
+  position:absolute;
+  top:60px; left:0; right:0;
+  height:3px;
+  z-index:1;
+}
+.flow-spine-bg {
+  position:absolute; inset:0;
+  background:rgba(110,231,183,0.12);
+  border-radius:2px;
+}
+.flow-spine-fill {
+  position:absolute; top:0; left:0; bottom:0;
+  width:0;
+  background:linear-gradient(90deg, var(--mint), rgba(110,231,183,0.4));
+  border-radius:2px;
+  animation:spineFill 2s ease-out 0.5s forwards;
+  box-shadow:0 0 12px rgba(110,231,183,0.3);
+}
+@keyframes spineFill { to { width:100%; } }
+
+/* Pulse dot that travels the spine */
+.flow-spine-pulse {
+  position:absolute; top:-4px; left:0;
+  width:11px; height:11px; border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 16px rgba(110,231,183,0.6), 0 0 40px rgba(110,231,183,0.2);
+  animation:pulseDot 3s ease-in-out 0.5s infinite;
+  opacity:0;
+}
+@keyframes pulseDot {
+  0%   { left:0; opacity:0; }
+  5%   { opacity:1; }
+  90%  { opacity:1; }
+  100% { left:calc(100% - 11px); opacity:0; }
+}
+
+/* Steps container */
+.flow-steps {
+  display:grid;
+  grid-template-columns:repeat(var(--steps), 1fr);
+  gap:16px;
+  position:relative;
+  z-index:2;
+}
+
+/* Individual step */
+.flow-step {
+  display:flex; flex-direction:column; align-items:center;
+  opacity:0; animation:stepReveal .6s ease-out forwards;
+}
+.flow-step:nth-child(1) { animation-delay:0.2s; }
+.flow-step:nth-child(2) { animation-delay:0.45s; }
+.flow-step:nth-child(3) { animation-delay:0.7s; }
+.flow-step:nth-child(4) { animation-delay:0.95s; }
+.flow-step:nth-child(5) { animation-delay:1.2s; }
+@keyframes stepReveal {
+  from { opacity:0; transform:translateY(20px) scale(0.95); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Node circle on the spine */
+.flow-node {
+  width:48px; height:48px; border-radius:50%;
+  background:var(--green);
+  border:2.5px solid rgba(110,231,183,0.35);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  margin-bottom:24px;
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+  cursor:default;
+}
+.flow-node::before {
+  content:'';
+  position:absolute; inset:-7px;
+  border-radius:50%;
+  border:1.5px solid rgba(110,231,183,0.08);
+  transition:all .4s;
+}
+.flow-node::after {
+  content:'';
+  position:absolute; inset:-14px;
+  border-radius:50%;
+  border:1px solid rgba(110,231,183,0.04);
+}
+.flow-node-num {
+  font-size:16px; font-weight:700; color:var(--mint);
+  letter-spacing:-0.02em;
+  transition:all .3s;
+}
+.flow-step:hover .flow-node {
+  background:var(--mint);
+  border-color:var(--mint);
+  box-shadow:0 0 32px rgba(110,231,183,0.4), 0 0 64px rgba(110,231,183,0.15);
+  transform:scale(1.12);
+}
+.flow-step:hover .flow-node::before {
+  border-color:rgba(110,231,183,0.2);
+  inset:-10px;
+}
+.flow-step:hover .flow-node-num {
+  color:var(--green);
+}
+
+/* Content panel */
+.flow-panel {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:18px;
+  padding:28px 22px 24px;
+  width:100%;
+  position:relative;
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+  overflow:hidden;
+}
+.flow-panel::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:3px;
+  background:linear-gradient(90deg, transparent, var(--mint), transparent);
+  opacity:0;
+  transition:opacity .4s;
+}
+.flow-step:hover .flow-panel {
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(110,231,183,0.25);
+  transform:translateY(-6px);
+  box-shadow:0 16px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(110,231,183,0.1);
+}
+.flow-step:hover .flow-panel::before {
+  opacity:1;
+}
+
+/* Panel icon */
+.flow-panel-icon {
+  width:52px; height:52px; border-radius:14px;
+  background:linear-gradient(135deg, rgba(110,231,183,0.12), rgba(110,231,183,0.04));
+  border:1px solid rgba(110,231,183,0.12);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 16px;
+  color:var(--mint);
+  transition:all .4s;
+}
+.flow-step:hover .flow-panel-icon {
+  background:linear-gradient(135deg, rgba(110,231,183,0.22), rgba(110,231,183,0.08));
+  border-color:rgba(110,231,183,0.3);
+  transform:scale(1.05);
+}
+
+/* Panel text */
+.flow-panel-title {
+  font-size:14px; font-weight:700; color:var(--white);
+  margin-bottom:10px; letter-spacing:-0.01em;
+  line-height:1.3; text-align:center;
+}
+.flow-panel-desc {
+  font-size:12.5px; font-weight:300; line-height:1.7;
+  color:rgba(255,255,255,0.45); text-align:center;
+}
+.flow-step:hover .flow-panel-desc {
+  color:rgba(255,255,255,0.6);
+}
+
+/* Arrow connectors between nodes */
+.flow-arrow {
+  position:absolute;
+  top:49px;
+  color:var(--mint);
+  opacity:0;
+  animation:arrowFade .4s ease-out forwards;
+  z-index:3;
+  filter:drop-shadow(0 0 4px rgba(110,231,183,0.3));
+}
+.flow-arrow:nth-child(1) { animation-delay:0.6s; }
+.flow-arrow:nth-child(2) { animation-delay:0.85s; }
+.flow-arrow:nth-child(3) { animation-delay:1.1s; }
+.flow-arrow:nth-child(4) { animation-delay:1.35s; }
+@keyframes arrowFade {
+  from { opacity:0; transform:translateX(-4px); }
+  to   { opacity:0.5; transform:translateX(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px) {
+  .flow-steps { gap:12px; }
+  .flow-panel { padding:22px 16px 20px; }
+}
+@media(max-width:768px) {
+  .flow-section { padding:64px 24px; }
+  .flow-spine { display:none; }
+  .flow-arrow { display:none; }
+  .flow-steps {
+    max-width:400px; margin:0 auto;
+    gap:16px;
+  }
+  .flow-step {
+    flex-direction:row; gap:16px; text-align:left;
+  }
+  .flow-node { flex-shrink:0; margin-bottom:0; width:42px; height:42px; }
+  .flow-panel { text-align:left; }
+  .flow-panel-icon { margin:0 0 12px; width:44px; height:44px; }
+  .flow-panel-title { text-align:left; }
+  .flow-panel-desc { text-align:left; }
+}
+
+/* ── RESPONSIVE ── */
+
+@media(max-width:1024px) {
+}
+@media(max-width:768px) {
+  nav { padding:0 24px; }
+  .nav-links { display:none; }
+  .sol-hero { padding:120px 24px 72px; }
+  .results-section, .kpis-section, .others-section, .cta-section { padding:64px 24px; }
+  .results-grid { grid-template-columns:1fr; }
+  .others-grid { grid-template-columns:1fr 1fr; }
+  .ft-grid { grid-template-columns:1fr 1fr; gap:32px; }
+  .flow-section { padding:64px 24px; }
+  nav { padding:0 24px; }
+  .nav-links { display:none; }
+  .sol-hero { padding:120px 24px 72px; }
+  .results-section, .kpis-section, .others-section, .cta-section { padding:64px 24px; }
+  .results-grid { grid-template-columns:1fr; }
+  .kpis-grid { flex-direction:column; align-items:center; gap:40px; }
+  .others-grid { grid-template-columns:1fr 1fr; }
+  .ft-grid { grid-template-columns:1fr 1fr; gap:32px; }
+  .flow-section { padding:64px 24px; }
+  }
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar" class="scrolled">
+  <a href="../index.html" class="logo">Exentriq</a>
+  <ul class="nav-links">
+    <li class="nav-dropdown">
+      <a href="#">Solutions</a>
+      <ul class="nav-dropdown-menu">
+          <li><a href="ai-information-retrieval.html">AI Information Retrieval</a></li>
+          <li><a href="human-resources.html">Human Resources E2E Platform</a></li>
+          <li><a href="orders-logistics.html">Orders &amp; Logistics</a></li>
+          <li><a href="procure-to-pay.html">Procure to Pay</a></li>
+          <li><a href="policy-enforcement.html">Policy Enforcement</a></li>
+          <li><a href="supply-management.html">Supply Management</a></li>
+          <li><a href="automated-replenishment.html">Automated Replenishment</a></li>
+          <li><a href="corporate-sustainability.html">Corporate Sustainability</a></li>
+          <li><a href="wealth-management.html">Exentriq Wealth</a></li>
+      </ul>
+    </li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a href="../index.html#contact" class="nav-btn">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="sol-hero">
+  <canvas id="heroBg"></canvas>
+  <div class="sol-hero-inner">
+    <div class="sol-breadcrumb">
+      <a href="../index.html">Exentriq</a><span>›</span>
+      <a href="#">Solutions</a><span>›</span>
+      Procure to Pay
+    </div>
+    <div class="sol-hero-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+    </div>
+    <h1>Procure to Pay</h1>
+    <div class="sol-hero-sub">End-to-end automation of Procure-to-Pay processes and contract lifecycle management — with intelligent workflows, AI-powered data extraction, and seamless ERP integration for faster approvals and full traceability.</div>
+  </div>
+</section>
+
+
+<!-- PROCESS FLOW INFOGRAPHIC -->
+<section class="flow-section">
+  <div class="eyebrow">How It Works</div>
+  <div class="sec-title">Process <em>Flow</em></div>
+  <div class="flow-subtitle">From requisition to payment — intelligent automation at every stage.</div>
+  <div class="flow-infographic">
+    <div class="flow-spine">
+      <div class="flow-spine-bg"></div>
+      <div class="flow-spine-fill"></div>
+      <div class="flow-spine-pulse"></div>
+    </div>
+  <svg class="flow-arrow" style="left:calc(25.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="flow-arrow" style="left:calc(50.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="flow-arrow" style="left:calc(75.0% - 7px)" width="14" height="24" viewBox="0 0 14 24" fill="none"><path d="M1 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="flow-steps" style="--steps:4">
+    <div class="flow-step">
+      <div class="flow-node"><span class="flow-node-num">1</span></div>
+      <div class="flow-panel">
+        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+        <div class="flow-panel-title">Requisition</div>
+        <div class="flow-panel-desc">Purchase requests are created, routed, and approved through automated workflows.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node"><span class="flow-node-num">2</span></div>
+      <div class="flow-panel">
+        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg></div>
+        <div class="flow-panel-title">Contract Management</div>
+        <div class="flow-panel-desc">AI extracts key data from contracts and monitors deadlines across the full lifecycle.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node"><span class="flow-node-num">3</span></div>
+      <div class="flow-panel">
+        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.02a4.5 4.5 0 00-6.364-6.364L4.5 8.257a4.5 4.5 0 006.364 6.364l3.75-3.75z"/></svg></div>
+        <div class="flow-panel-title">ERP Integration</div>
+        <div class="flow-panel-desc">Seamless connectors sync procurement data across departments, ERP, and DMS systems.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-node"><span class="flow-node-num">4</span></div>
+      <div class="flow-panel">
+        <div class="flow-panel-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg></div>
+        <div class="flow-panel-title">Payment &amp; Audit</div>
+        <div class="flow-panel-desc">Automated approval flows with full traceability ensure compliance and cost control.</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+<!-- RESULTS -->
+<section class="results-section">
+  <div class="eyebrow">Solution Overview</div>
+  <div class="sec-title">Key <em>results</em> & capabilities</div>
+  <div class='results-grid'>
+        <div class="result-card" style="animation-delay:0.15s">
+          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div class="result-text"><strong>End-to-end automation of Procure-to-Pay processes,</strong> with intelligent workflows that shorten operational times and minimize manual errors.</div>
+        </div>
+        <div class="result-card" style="animation-delay:0.25s">
+          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div>
+          <div class="result-text"><strong>Full digitalization of the contract lifecycle,</strong> supported by AI for automatic data extraction and precise deadline management.</div>
+        </div>
+        <div class="result-card" style="animation-delay:0.35s">
+          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.02a4.5 4.5 0 00-6.364-6.364L4.5 8.257a4.5 4.5 0 006.364 6.364l3.75-3.75z"/></svg></div>
+          <div class="result-text"><strong>Seamless integration between departments and systems</strong> (ERP, DMS) enabled by a collaborative architecture and intelligent connectors.</div>
+        </div>
+        <div class="result-card" style="animation-delay:0.45s">
+          <div class="result-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg></div>
+          <div class="result-text"><strong>Real-time automated approval workflows,</strong> with exception management and full traceability powered by Intelligent Process Automation.</div>
+        </div></div>
+</section>
+
+<section class='kpis-section'><div class='eyebrow'>Measured Impact</div><div class='kpis-grid'>
+          <div class="kpi-item" style="animation-delay:0.30s">
+            <div class="kpi-ring"><span class="kpi-val">5×</span></div>
+            <div class="kpi-label">Faster approval process</div>
+          </div>
+          <div class="kpi-item" style="animation-delay:0.45s">
+            <div class="kpi-ring"><span class="kpi-val">100%</span></div>
+            <div class="kpi-label">Traceability of approvals</div>
+          </div>
+          <div class="kpi-item" style="animation-delay:0.60s">
+            <div class="kpi-ring"><span class="kpi-val">30%</span></div>
+            <div class="kpi-label">Purchase costs optimization</div>
+          </div></div></section>
+
+<!-- OTHER SOLUTIONS -->
+<section class="others-section">
+  <div class="eyebrow">Explore More Solutions</div>
+  <div class="others-grid">
+        <a href="ai-information-retrieval.html" class="other-card">
+          <div class="other-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
+          <div class="other-title">AI Information Retrieval</div>
+          <div class="other-arrow">→</div>
+        </a>
+        <a href="human-resources.html" class="other-card">
+          <div class="other-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
+          <div class="other-title">Human Resources E2E Platform</div>
+          <div class="other-arrow">→</div>
+        </a>
+        <a href="orders-logistics.html" class="other-card">
+          <div class="other-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.136-.504 1.125-1.125l-.003-.375m-2.247-4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H20.25m-17.25 0h.375c.621 0 1.125.504 1.125 1.125v3m-1.5-4.5V6.375c0-.621.504-1.125 1.125-1.125h14.25c.621 0 1.125.504 1.125 1.125v3.75m-17.25 0h17.25"/></svg></div>
+          <div class="other-title">Orders &amp; Logistics</div>
+          <div class="other-arrow">→</div>
+        </a>
+        <a href="policy-enforcement.html" class="other-card">
+          <div class="other-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+          <div class="other-title">Policy Enforcement</div>
+          <div class="other-arrow">→</div>
+        </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="sec-title">Ready to <em>transform?</em></div>
+  <div class="cta-sub">Let’s discuss how Procure to Pay can drive measurable results for your organization.</div>
+  <a href="../index.html#contact" class="btn-solid">Schedule a Consultation</a>
+  <a href="../index.html" class="btn-ghost">Back to Home</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <div class="ft-brand">Exentriq</div>
+      <div class="ft-brand-sub">Enterprise-grade AI solutions engineered for Swiss precision and global scale.</div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-title">Solutions</div>
+      <a href="ai-information-retrieval.html">AI Information Retrieval</a><a href="human-resources.html">Human Resources E2E Platform</a><a href="orders-logistics.html">Orders &amp; Logistics</a><a href="procure-to-pay.html">Procure to Pay</a><a href="policy-enforcement.html">Policy Enforcement</a>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-title">More</div>
+      <a href="supply-management.html">Supply Management</a><a href="automated-replenishment.html">Automated Replenishment</a><a href="corporate-sustainability.html">Corporate Sustainability</a><a href="wealth-management.html">Exentriq Wealth</a>
+    </div>
+    <div class="ft-col">
+      <div class="ft-col-title">Company</div>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <div class="ft-copy">&copy; 2025 Exentriq SA &middot; Via Cantonale, Lugano, Switzerland</div>
+  </div>
+</footer>
+
+<script>
+// ── PARTICLE SPHERE ──
+(function() {
+  const canvas = document.getElementById('heroBg');
+  const ctx = canvas.getContext('2d');
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const N = 3500;
+  const particles = [];
+  for (let i = 0; i < N; i++) {
+    const phi = Math.acos(1 - 2*(i+0.5)/N);
+    const theta = Math.PI*(1+Math.sqrt(5))*i;
+    particles.push({ phi, theta,
+      seed: Math.random()*Math.PI*2,
+      seed2: Math.random()*Math.PI*2 });
+  }
+
+  let mouse = { x:0, y:0 };
+  let t = 0, rotY = 0;
+  window.addEventListener('mousemove', e => {
+    mouse.x = (e.clientX/window.innerWidth - 0.5)*2;
+    mouse.y = (e.clientY/window.innerHeight - 0.5)*2;
+  });
+
+  let last = performance.now();
+  function draw(now) {
+    const dt = Math.min((now-last)/1000, 0.05);
+    last = now;
+    t += dt * 0.65;
+    rotY += dt * 0.16 + mouse.x * dt * 0.1;
+
+    const W = canvas.width, H = canvas.height;
+    const cx = W * 0.5, cy = H * 0.5;
+    const R = Math.min(W, H) * 0.32;
+
+    ctx.fillStyle = 'rgba(20,61,44,0.2)';
+    ctx.fillRect(0,0,W,H);
+
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const cosX = Math.cos(mouse.y*0.12), sinX = Math.sin(mouse.y*0.12);
+
+    const pts = [];
+    for (let i = 0; i < N; i++) {
+      const p = particles[i];
+      const d = Math.sin(p.phi*3.5+p.theta*2.2-t*1.2)*0.15
+              + Math.sin(p.phi*6+t*0.65+p.seed)*0.07
+              + Math.cos(p.theta*4-t*0.85+p.seed2)*0.05
+              + Math.sin(p.phi*2+p.theta*3+t*0.45)*0.04
+              + mouse.x*0.14*Math.sin(p.phi)
+              + mouse.y*0.10*Math.cos(p.phi);
+      const r = R*(1+d);
+      let x = r*Math.sin(p.phi)*Math.cos(p.theta);
+      let y = r*Math.cos(p.phi);
+      let z = r*Math.sin(p.phi)*Math.sin(p.theta);
+      const x1 = x*cosY - z*sinY, z1 = x*sinY + z*cosY;
+      const y1 = y*cosX - z1*sinX, z2 = y*sinX + z1*cosX;
+      const fov = 600;
+      const s = fov / (fov + z2 + 200);
+      const px = cx + x1*s, py = cy + y1*s;
+      if (px < -20 || px > W+20 || py < -20 || py > H+20) continue;
+      const v = Math.max(0, Math.min(1, (d+0.2)/0.45));
+      const depth = (z2 + R*1.3) / (R*2.6);
+      pts.push({ px, py, z:z2, v, depth, s });
+    }
+    pts.sort((a,b) => a.z - b.z);
+
+    for (const p of pts) {
+      const alpha = p.depth * 0.5 + 0.04;
+      const size  = Math.max(0.3, p.s * (0.4 + p.v*1.2) * (R/200));
+      const rv = Math.round(180 + p.v*70);
+      const gv = Math.round(210 + p.v*40);
+      const bv = Math.round(185 + p.v*55);
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, size, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${rv},${gv},${bv},${alpha})`;
+      ctx.fill();
+    }
+
+    const grd = ctx.createRadialGradient(cx,cy,0,cx,cy,R*0.6);
+    grd.addColorStop(0, 'rgba(42,107,74,0.04)');
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grd; ctx.fillRect(0,0,W,H);
+
+    const vig = ctx.createLinearGradient(0,0,W*0.55,0);
+    vig.addColorStop(0,   'rgba(20,61,44,0.92)');
+    vig.addColorStop(0.4, 'rgba(20,61,44,0.40)');
+    vig.addColorStop(1,   'rgba(20,61,44,0)');
+    ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.result-card, .kpi-item, .other-card, .flow-step').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
